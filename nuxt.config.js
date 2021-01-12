@@ -10,7 +10,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=block' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=block',
+      },
     ],
   },
 
@@ -18,9 +22,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [
-    '~/plugins/vue-lazyload',
-  ],
+  plugins: ['~/plugins/vue-lazyload'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -31,7 +33,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
-    "@nuxtjs/svg",
+    '@nuxtjs/svg',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
