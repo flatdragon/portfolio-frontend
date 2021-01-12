@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -10,14 +8,19 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=block' },
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [
+    '~/plugins/vue-lazyload',
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -28,8 +31,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    "@nuxtjs/svg",
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -40,25 +42,6 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
-
-  // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
-        },
-      },
-    },
-  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
