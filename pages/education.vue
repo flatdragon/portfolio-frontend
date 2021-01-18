@@ -1,66 +1,46 @@
 <template>
-  <div class="education">
-    <div class="container">
-      <h1 class="heading">Образование</h1>
-      <div class="row">
-        <div v-for="task in tasks" :key="task.title" class="col-12 col-lg-4">
-          <a class="card" :href="task.link">
-            <div class="card__content">
-              <img class="card__figure" :src="task.image" alt="" />
-              <div class="card__text">
-                <div class="card__title">{{ task.title }}</div>
-                <div class="card__description">{{ task.description }}</div>
-              </div>
-              <div class="card__icon">
-                <open-in-new-icon class="icon icon--solid icon--big" />
-              </div>
-            </div>
-          </a>
-        </div>
+  <x-page title="Образование">
+    <div class="tabs row">
+      <div v-for="(tab, i) in tabs" :key="i" class="col-12 col-sm-4 mb-2">
+        <x-tab-education :title="tab.title" :link="tab.link">
+          <template #figure="figure">
+            <component :is="tab.figure" :class="figure.class" />
+          </template>
+        </x-tab-education>
       </div>
     </div>
-  </div>
+    <div class="content row">
+      <nuxt-child :nuxt-child-key="$route.fullPath" />
+    </div>
+  </x-page>
 </template>
 
 <script>
-import OpenInNewIcon from '~/assets/images/icons/open-in-new.svg?inline'
+import XPage from '~/components/public/XPage.vue'
+import XTabEducation from '~/components/public/XTabEducation.vue'
 
 export default {
   components: {
-    OpenInNewIcon,
+    XPage,
+    XTabEducation,
   },
   data() {
     return {
-      tasks: [
+      tabs: [
         {
-          image: require('~/assets/images/icons/ecmascript.png'),
-          title: 'FUNC_002',
-          description: 'This-параметризация функций',
+          title: 'Задания',
+          link: '/education/',
+          figure: require('~/assets/images/figures/tasks.svg?inline'),
         },
         {
-          image: require('~/assets/images/icons/ecmascript.png'),
-          title: 'FUNC_003',
-          description: 'Импорт функций из модуля',
+          title: 'Практики',
+          link: '/education/practices/',
+          figure: require('~/assets/images/figures/practices.svg?inline'),
         },
         {
-          image: require('~/assets/images/icons/ecmascript.png'),
-          title: 'FUNC_004',
-          description: 'Композиция функций',
-        },
-        {
-          image: require('~/assets/images/icons/react.png'),
-          title: 'FRMW_001',
-          description: 'Работа с полями ввода на React',
-        },
-        {
-          image: require('~/assets/images/icons/vue.png'),
-          title: 'FRMW_005',
-          description: 'RGB-слайдер на Vue',
-        },
-        {
-          image: require('~/assets/images/icons/elm.png'),
-          title: 'FRMW_006',
-          description: 'Счетчик на Elm',
+          title: 'Статьи',
+          link: '/education/articles/',
+          figure: require('~/assets/images/figures/articles.svg?inline'),
         },
       ],
     }
@@ -68,56 +48,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.education {
-  padding-top: 4rem;
-}
+<style lang="scss" scoped>
+.tabs {
+  margin-bottom: 2rem;
 
-.heading {
-  margin-bottom: 2.5rem;
-}
-
-.card {
-  display: inline-block;
-  width: 100%;
-  border-radius: 0.5rem;
-  background: #fff;
-  margin-bottom: 1rem;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-
-  &:hover {
-    box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.25);
-    text-decoration: none;
-  }
-
-  &__content {
+  @media screen and (max-width: 575px) {
     display: flex;
-    align-items: center;
-    padding: 1rem;
-  }
-
-  &__figure {
-    width: 2.5rem;
-    margin-right: 0.5rem;
-  }
-
-  &__text {
-    flex-grow: 1;
-  }
-
-  &__title {
-    color: #424242;
-  }
-
-  &__description {
-    color: #757575;
-  }
-
-  &__icon {
-    color: #757575;
-    margin-left: 0.5rem;
+    flex-direction: column;
   }
 }
 </style>

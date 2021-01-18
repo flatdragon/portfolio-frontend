@@ -1,79 +1,145 @@
 <template>
   <div class="layout">
     <div class="layout__right-shape"></div>
+
     <header class="header">
       <div class="container">
         <div class="header__nav">
           <nuxt-link
+            v-for="(page, i) in pages"
+            :key="i"
             class="header__link"
             exact-active-class="header__link--exact-active"
             active-class="header__link--active"
-            to="/"
+            :to="page.link"
           >
-            <home-icon class="icon icon--solid icon--big" />
+            <component
+              :is="page.icon"
+              v-if="page.icon"
+              class="icon icon--solid icon--big"
+            />
+            <span v-if="page.title" class="d-none d-sm-inline ml-2">{{
+              page.title
+            }}</span>
           </nuxt-link>
-          <nuxt-link
-            class="header__link"
-            exact-active-class="header__link--exact-active"
-            active-class="header__link--active"
-            to="/education"
-            >Образование</nuxt-link
+
+          <x-button @click.native="$refs['modal-contact-me'].open()"
+            >Связаться</x-button
           >
-          <nuxt-link
-            class="header__link"
-            exact-active-class="header__link--exact-active"
-            active-class="header__link--active"
-            to="/projects"
-            >Проекты</nuxt-link
-          >
-          <button class="header__contact-button">Связаться</button>
+
+          <portal to="modals">
+            <x-modal ref="modal-contact-me" title="Связаться">
+              <x-form v-slot="form" action="/api/contact-me">
+                <x-input
+                  class="mb-4"
+                  type="email"
+                  name="email"
+                  placeholder="Введите e-mail"
+                  :invalid="form.errors['email']"
+                />
+                <x-textarea
+                  class="mb-4"
+                  name="msg"
+                  placeholder="Введите сообщение"
+                  :invalid="form.errors['msg']"
+                />
+                <x-button block :disabled="form.busy">Отправить</x-button>
+              </x-form>
+            </x-modal>
+          </portal>
         </div>
       </div>
     </header>
+
     <main class="content">
-      <nuxt keep-alive />
+      <transition name="page" mode="out-in">
+        <nuxt keep-alive />
+      </transition>
     </main>
+
     <footer class="footer">
       <div class="container">
         <div class="footer__content">
-          <div class="footer__socials">
-            <a class="footer__link" href="https://github.com/flatdragon"
-              ><github-icon class="icon icon--solid icon--big"
-            /></a>
-            <a class="footer__link" href="https://vk.com/id22276301"
-              ><vk-icon class="icon icon--solid icon--big"
-            /></a>
-            <a class="footer__link" href="https://t.me/flatdragon"
-              ><telegram-icon class="icon icon--solid icon--big"
-            /></a>
+          <div class="footer__socials mx-auto mx-sm-0">
+            <a
+              v-for="(social, i) in socials"
+              :key="i"
+              target="_blank"
+              class="footer__link"
+              :href="social.link"
+            >
+              <component :is="social.icon" class="icon icon--solid icon--big" />
+            </a>
           </div>
-          <a class="footer__link" href="mailto:flatdragon@yandex.ru"
-            >flatdragon@yandex.ru</a
+          <a
+            class="footer__link d-none d-sm-block"
+            target="_blank"
+            :href="`mailto:${email}`"
+            >{{ email }}</a
           >
         </div>
       </div>
     </footer>
+
+    <portal-target name="modals" multiple />
   </div>
 </template>
 
 <script>
-import HomeIcon from '~/assets/images/icons/home.svg?inline'
-import GithubIcon from '~/assets/images/icons/github.svg?inline'
-import VkIcon from '~/assets/images/icons/vk.svg?inline'
-import TelegramIcon from '~/assets/images/icons/telegram.svg?inline'
+import XInput from '~/components/public/XInput.vue'
+import XModal from '~/components/public/XModal.vue'
+import XTextarea from '~/components/public/XTextarea.vue'
+import XButton from '~/components/public/XButton.vue'
+import XForm from '~/components/shared/XForm.vue'
 
 export default {
   components: {
-    HomeIcon,
-    GithubIcon,
-    VkIcon,
-    TelegramIcon,
+    XModal,
+    XInput,
+    XTextarea,
+    XButton,
+    XForm,
+  },
+  data() {
+    return {
+      email: 'flatdragon@yandex.ru',
+      pages: [
+        {
+          icon: require('~/assets/images/icons/home.svg?inline'),
+          link: '/',
+        },
+        {
+          icon: require('~/assets/images/icons/education.svg?inline'),
+          title: 'Образование',
+          link: '/education/',
+        },
+        {
+          icon: require('~/assets/images/icons/projects.svg?inline'),
+          title: 'Проекты',
+          link: '/projects/',
+        },
+      ],
+      socials: [
+        {
+          link: 'https://github.com/flatdragon',
+          icon: require('~/assets/images/icons/github.svg?inline'),
+        },
+        {
+          link: 'https://vk.com/id22276301',
+          icon: require('~/assets/images/icons/vk.svg?inline'),
+        },
+        {
+          link: 'https://t.me/flatdragon',
+          icon: require('~/assets/images/icons/telegram.svg?inline'),
+        },
+      ],
+    }
   },
 }
 </script>
 
 <style lang="scss">
-@import '~/assets/scss/public.scss';
+@import '~/assets/scss/public/index.scss';
 
 .layout {
   position: relative;
@@ -81,11 +147,12 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 18px);
-  min-width: 992px;
+  // min-width: 992px;
   max-width: 1920px;
   margin: 0 auto;
   overflow-x: hidden;
   background-color: #fafafa;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
   padding-bottom: 56px;
 
   @media screen and (min-width: 992px) {
@@ -110,12 +177,7 @@ export default {
       top: 0;
       bottom: 0;
       width: 292px;
-      background: linear-gradient(
-        180deg,
-        #c6e5ff 0%,
-        #92ccfa 33.33%,
-        #64b5f6 62.5%
-      );
+      background: linear-gradient(180deg, #e3f2fd 0%, #90caf9 30%, #64b5f6 65%);
     }
   }
 }
@@ -134,6 +196,8 @@ export default {
   }
 
   &__link {
+    display: flex;
+    align-items: center;
     color: #9e9e9e;
 
     &:hover {
@@ -178,6 +242,7 @@ export default {
   padding-bottom: 1rem;
   bottom: 0;
   width: 100%;
+  max-width: 1920px;
   font-size: 1.5rem;
   color: #fff;
   flex-grow: 0;

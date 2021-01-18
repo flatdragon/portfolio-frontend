@@ -88,19 +88,41 @@ export default {
 
 <style lang="scss">
 .right-shape {
-  display: none;
-  z-index: -10;
-  position: absolute;
-  top: 0;
+  // display: none;
+  // z-index: -10;
+  // position: absolute;
+  // top: 0;
+  // left: 50%;
+  // width: 1920px;
+  // height: 100vh;
+  // transform: translateX(-50%);
+  // pointer-events: none;
+  // opacity: 1;
+  // transition: opacity 0.2s;
+
+  // @media screen and (min-height: 1080px) {
+  //   opacity: 0;
+  // }
+
+  display: block;
+  position: fixed;
+  content: '';
   left: 50%;
-  width: 1920px;
-  height: 100vh;
+  top: 0;
   transform: translateX(-50%);
-  pointer-events: none;
-  opacity: 1;
+  height: 1080px;
+  min-width: 1920px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('~assets/images/backgrounds/home/right-shape.svg');
   transition: opacity 0.2s;
+  z-index: -10;
 
   @media screen and (min-height: 1080px) {
+    opacity: 0;
+  }
+
+  @media screen and (max-width: 1199px) {
     opacity: 0;
   }
 }

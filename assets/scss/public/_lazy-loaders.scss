@@ -1,0 +1,10 @@
+.lazy-opacity-blur {
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 1s, filter 1s !important;
+
+  &[lazy='loaded'] {
+    filter: blur(0);
+    opacity: 1;
+  }
+}

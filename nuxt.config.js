@@ -1,8 +1,8 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - portfolio-frontend',
-    title: 'portfolio-frontend',
+    titleTemplate: '%s | Кочетыгов Андрей',
+    title: 'Портфолио',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,7 +22,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/vue-lazyload'],
+  plugins: [
+    '~/plugins/api.js',
+    '~/plugins/portal-vue.js',
+    '~/plugins/vue-lazyload.js',
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -46,5 +50,7 @@ export default {
   axios: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    transpile: ['vue-lazyload'],
+  },
 }
